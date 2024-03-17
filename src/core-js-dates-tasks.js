@@ -154,8 +154,24 @@ function isDateInPeriod(date, period) {
  * '1999-01-05T02:20:00.000Z' => '1/5/1999, 2:20:00 AM'
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
-function formatDate(/* date */) {
-  throw new Error('Not implemented');
+function formatDate(date) {
+  const newDate = new Date(date);
+
+  const month = newDate.getUTCMonth() + 1;
+  const day = newDate.getUTCDate();
+  const year = newDate.getUTCFullYear();
+
+  let hours = newDate.getUTCHours();
+  const minutes = String(newDate.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(newDate.getUTCSeconds()).padStart(2, '0');
+
+  const meridiem = hours < 12 ? 'AM' : 'PM';
+  hours %= 12;
+  hours = hours || 12;
+
+  const formattedDate = `${month}/${day}/${year}, ${hours}:${minutes}:${seconds} ${meridiem}`;
+
+  return formattedDate;
 }
 
 /**
@@ -170,8 +186,14 @@ function formatDate(/* date */) {
  * 12, 2023 => 10
  * 1, 2024 => 8
  */
-function getCountWeekendsInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountWeekendsInMonth(month, year) {
+  let count = 0;
+  const newDate = new Date(year, month - 1, 1);
+  while (newDate.getMonth() === month - 1) {
+    if (newDate.getDay() === 0 || newDate.getDay() === 6) count += 1;
+    newDate.setDate(newDate.getDate() + 1);
+  }
+  return count;
 }
 
 /**
