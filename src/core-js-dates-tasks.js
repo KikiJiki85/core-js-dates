@@ -223,8 +223,12 @@ function getWeekNumberByDate(/* date */) {
  * Date(2024, 0, 13) => Date(2024, 8, 13)
  * Date(2023, 1, 1) => Date(2023, 9, 13)
  */
-function getNextFridayThe13th(/* date */) {
-  throw new Error('Not implemented');
+function getNextFridayThe13th(date) {
+  const nextFriday13 = new Date(date.getTime());
+  do {
+    nextFriday13.setDate(nextFriday13.getDate() + 1);
+  } while (nextFriday13.getDay() !== 5 || nextFriday13.getDate() !== 13);
+  return nextFriday13;
 }
 
 /**
@@ -238,8 +242,30 @@ function getNextFridayThe13th(/* date */) {
  * Date(2024, 5, 1) => 2
  * Date(2024, 10, 10) => 4
  */
-function getQuarter(/* date */) {
-  throw new Error('Not implemented');
+function getQuarter(date) {
+  const month = date.getMonth();
+  let result = null;
+
+  switch (month) {
+    case 0:
+    case 1:
+    case 2:
+      result = 1;
+      break;
+    case 3:
+    case 4:
+    case 5:
+      result = 2;
+      break;
+    case 6:
+    case 7:
+    case 8:
+      result = 3;
+      break;
+    default:
+      result = 4;
+  }
+  return result;
 }
 
 /**
@@ -276,8 +302,9 @@ function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
  * Date(2022, 2, 1) => false
  * Date(2020, 2, 1) => true
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const leapYear = date.getFullYear();
+  return (leapYear % 4 === 0 && leapYear % 100 !== 0) || leapYear % 400 === 0;
 }
 
 module.exports = {
